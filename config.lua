@@ -26,3 +26,5 @@ Config.MoneyRewards = {
 -- If item reward is enabled --
 Config.Item = 'fixkit'
 Config.ItemAmount = 1
+
+Config.EnableDebug = true
