@@ -1,15 +1,16 @@
 Config = {}
 
+-- COMMANDS SETTINGS --
+Config.Command = 'daily-reward'
 Config.UseCommand = true
 
--- If use command is enabled --
-Config.Command = 'daily-reward'
-
--- Types of rewards --
+-- REWARD TYPES --
 Config.MoneyReward = true
-Config.ItemReward = false
+Config.ItemReward = true
 
--- If money reward is enabled --
+-- MONEY REWARD SETTINGS --
+Config.RandomAmount = true -- TRUE will select a random amount from the rewards table | FALSE will use the preset amount
+Config.PresetAmount = 1000
 Config.MoneyRewards = {
     5000,
     10000,
@@ -23,8 +24,20 @@ Config.MoneyRewards = {
     50000
 }
 
--- If item reward is enabled --
-Config.Item = 'fixkit'
-Config.ItemAmount = 1
+-- ITEM REWARD SETTINGS --
+Config.RandomItems = true -- TRUE will select a random item from the items table | FALSE will use the preset item with the preset amount
+Config.PresetAmount = 1 
+Config.PresetItem = 'fixkit'
+Config.ItemRewards = {
+    {
+        item = 'casino_token',
+        amount = 1000
+    },
+    {
+        item = 'marijuana',
+        amount = 10
+    }
+}
 
-Config.EnableDebug = true
+-- DEBUG SETTINGS --
+Config.EnableDebug = false

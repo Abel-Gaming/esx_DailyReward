@@ -19,6 +19,8 @@ function ClaimReward(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     local xPlayerName = xPlayer.getName()
     local xPlayerIdentifier = xPlayer.getIdentifier()
+
+    -- Print that the player is trying to redeem their reward
     if Config.EnableDebug then
         print(xPlayerName .. ' (' .. xPlayerIdentifier .. ') is attempting to redeem their daily reward')
     end
@@ -38,21 +40,45 @@ function ClaimReward(source)
 
         --- MONEY REWARD ---
         if Config.MoneyReward then
-            local crateAmount = Config.MoneyRewards[math.random(#Config.MoneyRewards)]
-            xPlayer.addAccountMoney('bank', crateAmount)
-            xPlayer.showNotification('$' .. crateAmount .. ' has been added to your bank!')
-            if Config.EnableDebug then
-                print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+            if Config.RandomAmount then
+                local crateAmount = Config.MoneyRewards[math.random(#Config.MoneyRewards)]
+                xPlayer.addAccountMoney('bank', crateAmount)
+                xPlayer.showNotification('$' .. crateAmount .. ' has been added to your bank!')
+                if Config.EnableDebug then
+                    print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                end
+            else
+                local crateAmount = Config.PresetAmount
+                xPlayer.addAccountMoney('bank', crateAmount)
+                xPlayer.showNotification('$' .. crateAmount .. ' has been added to your bank!')
+                if Config.EnableDebug then
+                    print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                end
             end
         end
 
+        -- WAIT
+        Citizen.Wait(3 * 1000)
+
         --- ITEM REWARD ---
         if Config.ItemReward then
-            xPlayer.addInventoryItem(Config.Item, Config.ItemAmount)
-            local itemLabel = ESX.GetItemLabel(Config.Item)
-            xPlayer.showNotification('' .. Config.ItemAmount .. ' ' .. itemLabel .. ' has been added to your inventory!')
-            if Config.EnableDebug then
-                print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+            if Config.RandomItems then
+                local randomItem = Config.ItemRewards[math.random(#Config.ItemRewards)]
+                local selectedItem = randomItem.item
+                local selectedItemCount = randomItem.amount
+                xPlayer.addInventoryItem(selectedItem, selectedItemCount)
+                local itemLabel = ESX.GetItemLabel(selectedItem)
+                xPlayer.showNotification('' .. selectedItemCount .. ' ' .. itemLabel .. ' has been added to your inventory!')
+                if Config.EnableDebug then
+                    print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                end
+            else
+                xPlayer.addInventoryItem(Config.PresetItem, Config.PresetAmount)
+                local itemLabel = ESX.GetItemLabel(Config.PresetItem)
+                xPlayer.showNotification('' .. Config.PresetAmount .. ' ' .. itemLabel .. ' has been added to your inventory!')
+                if Config.EnableDebug then
+                    print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                end
             end
         end
     else
@@ -70,21 +96,42 @@ function ClaimReward(source)
 
             --- MONEY REWARD ---
             if Config.MoneyReward then
-                local crateAmount = Config.MoneyRewards[math.random(#Config.MoneyRewards)]
-                xPlayer.addAccountMoney('bank', crateAmount)
-                xPlayer.showNotification('$' .. crateAmount .. ' has been added to your bank!')
-                if Config.EnableDebug then
-                    print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                if Config.RandomAmount then
+                    local crateAmount = Config.MoneyRewards[math.random(#Config.MoneyRewards)]
+                    xPlayer.addAccountMoney('bank', crateAmount)
+                    xPlayer.showNotification('$' .. crateAmount .. ' has been added to your bank!')
+                    if Config.EnableDebug then
+                        print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                    end
+                else
+                    local crateAmount = Config.PresetAmount
+                    xPlayer.addAccountMoney('bank', crateAmount)
+                    xPlayer.showNotification('$' .. crateAmount .. ' has been added to your bank!')
+                    if Config.EnableDebug then
+                        print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                    end
                 end
             end
 
             --- ITEM REWARD ---
             if Config.ItemReward then
-                xPlayer.addInventoryItem(Config.Item, Config.ItemAmount)
-                local itemLabel = ESX.GetItemLabel(Config.Item)
-                xPlayer.showNotification('' .. Config.ItemAmount .. ' ' .. itemLabel .. ' has been added to your inventory!')
-                if Config.EnableDebug then
-                    print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                if Config.RandomItems then
+                    local randomItem = Config.ItemRewards[math.random(#Config.ItemRewards)]
+                    local selectedItem = randomItem.item
+                    local selectedItemCount = randomItem.amount
+                    xPlayer.addInventoryItem(selectedItem, selectedItemCount)
+                    local itemLabel = ESX.GetItemLabel(selectedItem)
+                    xPlayer.showNotification('' .. selectedItemCount .. ' ' .. itemLabel .. ' has been added to your inventory!')
+                    if Config.EnableDebug then
+                        print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                    end
+                else
+                    xPlayer.addInventoryItem(Config.PresetItem, Config.PresetAmount)
+                    local itemLabel = ESX.GetItemLabel(Config.PresetItem)
+                    xPlayer.showNotification('' .. Config.PresetAmount .. ' ' .. itemLabel .. ' has been added to your inventory!')
+                    if Config.EnableDebug then
+                        print('Gave ' .. xPlayerIdentifier .. ' their daily reward')
+                    end
                 end
             end
         end
